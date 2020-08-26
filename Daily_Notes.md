@@ -81,12 +81,21 @@ Jetson Nano的板子比我想象的要小一些——Hi Nano，初次见面，�
 核心目的是升级系统到最新状态。
 
 注意1）Jetson Nano的CPU架构是aarch64，与常见的x86_64和arm64都不同2）Jetson Nano官方image是基于ubuntu的。3）需要找到一个国内的源来替换原有的国外源，提高下载速度
+```shell
 yanyuan@yanyuan-Jetson:~$ uname -a
 Linux yanyuan-Jetson 4.9.140-tegra #1 SMP PREEMPT Thu Jun 25 21:25:44 PDT 2020 aarch64 aarch64 aarch64 GNU/Linux
+```
+
 找了一下，还得是tsinghua的tuna源。
+
+```shell
 $ sudo cp /etc/apt/sources.list /etc/apt/sources.list-backup-20200826
 $ sudo vim /etc/apt/sources.list
+```
+
 覆盖原文件中的内容
+
+```shell
 deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic main multiverse restricted universe
 deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic-security main multiverse restricted universe
 deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic-updates main multiverse restricted universe
@@ -95,9 +104,14 @@ deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic main multiverse
 deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic-security main multiverse restricted universe
 deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic-updates main multiverse restricted universe
 deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic-backports main multiverse restricted universe
+```
+
 跑update & upgrade吧
+```shell
 $ sudo apt update
 $ sudo apt upgrade
+```
+
 搞定之后需要重新启动一下，大功告成。
 
 ### 远程访问
@@ -108,6 +122,8 @@ $ sudo apt upgrade
 好在已经是个很成熟的技术了，jetson-nano预装了ssh-server，可以省掉此一步骤，这里不贅数(感兴趣的google一下"ubuntu ssh server"就行，一抓一大把
 
 在jetson nano上ifconfig，看看ip地址是多少
+
+```shell
 $ ifconfig
 
 yanyuan@yanyuan-Jetson:~$ ifconfig
@@ -152,10 +168,16 @@ wlan0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         RX errors 0  dropped 0  overruns 0  frame 0
         TX packets 948  bytes 133844 (133.8 KB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+```
+        
 其他看不懂没关系，以后慢慢学都行，关键的一行是wlan0这个无线网卡的地址 *inet 192.168.1.15*，这是需要的
 
 回到PC机上ssh连接它吧
+
+```shell
 $ ssh xxxx@192.168.1.15
+```
+
 其中xxxx是你在jetson nano上的用户名，如果不记得了，就回到jetson nano上`$whoami`一下
 
 terminal中弹出一大堆内容，愿意读就读一下，不愿意读就直接输入yes。顺利登录了对吗？来个`rm -rf /`庆祝一下吧（千万不要...我开个玩笑）
@@ -169,12 +191,8 @@ terminal中弹出一大堆内容，愿意读就读一下，不愿意读就直接
 <img src="./Figures/20200826-14-08-29.png" width = 600>
 
 第2步是编辑/etc/network/interfaces文件，在最下一行输入
+
+```shell
 auto wlan0
-wlan0就是上面ifconfig时看到的网卡名称，如果你的系统并不叫这个，比如叫wifi0，那就相应地改成`auto wifi0`即可
+```
 
-重启一下，看看能不能在无用户登录的状态下，ssh连接到这台jetson nano。
-
-
-如果能，那么远程设置就OK了。可以把jetson nano关机，扔到合适的角落去了——暂时先把他放在大众旅行车旁边
-
-<img src="./Figures/webwxgetmsgimg.jpg" width = 600>
