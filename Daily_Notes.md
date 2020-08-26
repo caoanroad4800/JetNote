@@ -1,4 +1,7 @@
 # Jetson Nano日记
+
+[TOC]
+
 ## 20200823T23:00
 
 买了个Jetson Nano的AI小板子，打算玩一玩智能图像识别，免得18年学的那些deeplearning的东东都忘了。为了让Jetson Nano能够动起来，又买了个Jetbot智能小车。
@@ -196,3 +199,8 @@ terminal中弹出一大堆内容，愿意读就读一下，不愿意读就直接
 auto wlan0
 ```
 
+重启一下，看看能不能在无用户登录的状态下，ssh连接到这台jetson nano。
+
+如果能，那么远程设置就OK了。可以把jetson nano关机，扔到合适的角落去了——暂时先把他放在大众旅行车旁边
+
+<img src="./Figures/webwxgetmsgimg.jpg" width = 600>
